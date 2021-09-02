@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	echo "command empty"
+elif [ "$1" = "start" ]; then
+	STATUS1="$(systemctl is-active httpd.service)"
+	STATUS2="$(systemctl is-active mariadb.service)"
+	if [ "${STATUS1}" != "active" ] && [ "${STATUS2}" != "active" ]; then
+		echo "services starting..."
+		echo "httpd starting..."
+		systemctl start httpd.service
+		echo "httpd started"
+		echo "mariadb starting..."
+		systemctl start mariadb.service
+		echo "mariadb started"
+		echo "httpd and mysqld services is started"
+	else
+		echo "services already started"
+	fi	
+elif [ "$1" = "stop" ]; then
+	STATUS1="$(systemctl is-active httpd.service)"
+	STATUS2="$(systemctl is-active mariadb.service)"
+	if [ "${STATUS1}" == "active" ] && [ "${STATUS2}" == "active" ]; then
+		echo "services stopping..."
+		echo "httpd stopping..."
+		systemctl stop httpd.service
+		echo "httpd stopped"
+		echo "mariadb stopping..."
+		systemctl stop mariadb.service
+		echo "mariadb stopped"
+		echo "httpd and mariadb services is stopped"
+	else
+		echo "services already stopped"
+	fi
+else
+	echo "unknown command"
+fi
