@@ -32,6 +32,21 @@ elif [ "$1" = "stop" ]; then
 	else
 		echo "services already stopped"
 	fi
+elif [ "$1" = "restart" ]; then
+	STATUS1="$(systemctl is-active httpd.service)"
+	STATUS2="$(systemctl is-active mariadb.service)"
+	if [ "${STATUS1}" == "active" ] && [ "${STATUS2}" == "active" ]; then
+		echo "services restarting..."
+		echo "httpd restarting..."
+		systemctl restart httpd.service
+		echo "httpd restarted"
+		echo "mariadb restarting..."
+		systemctl restart mariadb.service
+		echo "mariadb restarted"
+		echo "httpd and mariadb services restarted"
+	else
+		echo "services not started"
+	fi
 else
 	echo "unknown command"
 fi
