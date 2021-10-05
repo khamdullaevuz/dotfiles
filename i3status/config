@@ -1,0 +1,69 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 1
+        output_format = "i3bar"
+        color_good = "#01FF70"
+        color_degraded = "#FFDC00"
+        color_bad = "#FF4136"
+}
+
+order += "volume master"
+order += "wireless _first_"
+order += "disk /"
+order += "memory"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "tztime local"
+
+volume master {
+    format = " %volume"
+    format_muted = " %volume"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
+
+wireless _first_ {
+    format_up = "%quality %frequency"
+    format_down = "W: down"
+}
+
+disk "/" {
+    format = " %avail"
+
+    low_threshold = "10"
+    threshold_type = "gbytes_avail"
+    format_below_threshold = " Warning: %avail"
+}
+
+memory {
+    format = " %used"
+    
+    threshold_degraded = "1G"
+    threshold_critical = "200M"
+    format_degraded = "MEMORY < %available"
+}
+
+cpu_temperature 0 {
+    format = " %degrees"
+
+    max_threshold = "80"
+    format_above_threshold = " %degrees"
+    path = "/sys/class/thermal/thermal_zone0/temp"
+}
+
+cpu_usage {
+    format = " %usage"
+}
+
+tztime local {
+    format = " %d %b  %H:%M:%S"
+}
