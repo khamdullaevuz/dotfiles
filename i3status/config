@@ -24,28 +24,28 @@ order += "cpu_temperature 0"
 order += "tztime local"
 
 volume master {
-    format = " %volume"
-    format_muted = " %volume"
+    format = "🔊 %volume"
+    format_muted = "🔇 %volume"
     device = "default"
     mixer = "Master"
     mixer_idx = 0
 }
 
 wireless _first_ {
-    format_up = "%quality %frequency"
+    format_up = "📡 quality %frequency"
     format_down = "W: down"
 }
 
 disk "/" {
-    format = " %avail"
+    format = "💾 %avail"
 
     low_threshold = "10"
     threshold_type = "gbytes_avail"
-    format_below_threshold = " Warning: %avail"
+    format_below_threshold = "💾 Warning: %avail"
 }
 
 memory {
-    format = " %used"
+    format = "💽 %used"
     
     threshold_degraded = "1G"
     threshold_critical = "200M"
@@ -53,17 +53,17 @@ memory {
 }
 
 cpu_temperature 0 {
-    format = " %degrees"
+    format = "❄️ %degrees"
 
     max_threshold = "80"
-    format_above_threshold = " %degrees"
+    format_above_threshold = "❄️ %degrees"
     path = "/sys/class/thermal/thermal_zone0/temp"
 }
 
 cpu_usage {
-    format = " %usage"
+    format = "📟 %usage"
 }
 
 tztime local {
-    format = " %d %b  %H:%M:%S"
+    format = "📅 %d %b ⏰ %H:%M:%S"
 }

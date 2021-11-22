@@ -108,16 +108,16 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # nombres del area de trabajo
-set $workspace1 "1: "
-set $workspace2 "2: "
-set $workspace3 "3: "
-set $workspace4 "4: "
-set $workspace5 "5: "
-set $workspace6 "6: "
-set $workspace7 "7: "
-set $workspace8 "8: "
-set $workspace9 "9: "
-set $workspace10 "10: "
+set $workspace1 "1: 📝"
+set $workspace2 "2: 🌐"
+set $workspace3 "3: 💭"
+set $workspace4 "4: 📬"
+set $workspace5 "5: 📹"
+set $workspace6 "6: 📁"
+set $workspace7 "7: 🎁"
+set $workspace8 "8: 📥"
+set $workspace9 "9: ✍️"
+set $workspace10 "10: 📺"
 
 # Desplazar entre workspaces
 bindsym $mod+Home workspace $workspace1
@@ -247,5 +247,4 @@ mode "$mode_power" {
 bindsym --release $mod+Shift+F4 mode "$mode_power"
 
 exec picom &
-exec xrandr --output VGA1 --mode 1280x1024
-exec feh --bg-fill ~/Pictures/wallpapers/kevin-laminto.jpg
+# exec feh --bg-fill ~/Pictures/wallpapers/kevin-laminto.jpg
