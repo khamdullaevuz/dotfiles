@@ -9,11 +9,11 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:JetBrainsMono Nerd Font Medium 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -30,11 +30,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
-bindsym $mod+Shift+U exec ~/.config/i3/volume.sh up
-bindsym $mod+Shift+D exec ~/.config/i3/volume.sh down
-bindsym $mod+Shift+M exec ~/.config/i3/volume.sh mute 
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -42,13 +37,14 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # start a screenshooter
-bindsym Print exec xfce4-screenshooter
+bindsym Print exec flameshot gui 
 
 # kill focused window
 bindsym $mod+F4 kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec "dmenu_run -nf '#BBBBBB' -nb '#001F3F' -sb '#0074D9' -sf '#EEEEEE' -fn 'monospace-10' -p 'dmenu prompt: '"
+bindsym $mod+d exec "rofi -modi drun,run -show drun"
+
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -108,16 +104,16 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # nombres del area de trabajo
-set $workspace1 "1: 📝"
-set $workspace2 "2: 🌐"
-set $workspace3 "3: 💭"
-set $workspace4 "4: 📬"
-set $workspace5 "5: 📹"
-set $workspace6 "6: 📁"
-set $workspace7 "7: 🎁"
-set $workspace8 "8: 📥"
-set $workspace9 "9: ✍️"
-set $workspace10 "10: 📺"
+set $workspace1 "1:  "
+set $workspace2 "2: 爵 "
+set $workspace3 "3:  "
+set $workspace4 "4:  "
+set $workspace5 "5:  "
+set $workspace6 "6:  "
+set $workspace7 "7:  "
+set $workspace8 "8:  "
+set $workspace9 "9:  "
+set $workspace10 "10:  "
 
 # Desplazar entre workspaces
 bindsym $mod+Home workspace $workspace1
@@ -149,14 +145,16 @@ bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
-assign [class="subl"] $workspace1
+assign [class="term"] $workspace1
+assign [class="Sublime"] $workspace3
 assign [class="chrome"] $workspace2
 assign [class="Brave"] $workspace2
 assign [class="firefox"] $workspace2
 assign [class="Hexchat"] $workspace3
-assign [class="TelegramDesktop"] $workspace3
+assign [class="TelegramDesktop"] $workspace6
 assign [class="vlc"] $workspace5
-assign [class="Thunar"] $workspace6
+assign [class="Thunar"] $workspace5
+assign [class="FileZilla"] $workspace5
 assign [class="VirtualBox"] $workspace6
 assign [class="qBittorrent"] $workspace8
 assign [class="Snes9x-gtk"] $workspace9
@@ -168,6 +166,7 @@ assign [class="Simplescreenrecorder"] $workspace10
 for_window [class="Gimp"] floating enable move container to workspace $workspace7
 #for_window [window_role="gimp-dock"] floating disable; move left; resize shrink width 80px
 #for_window [window_role="gimp-toolbox"] floating disable; move right; resize set 654px 262px
+
 #
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -217,6 +216,24 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 
@@ -226,7 +243,7 @@ bar {
   colors {
     background #001F3F
     statusline #FFFFFF
-    separator  #FFFFFF
+    separator #FFFFFF    
 
     focused_workspace  #FFFFFF #0074D9 #FFFFFF
     active_workspace   #FFFFFF #001F3F #FFFFFF
@@ -239,12 +256,13 @@ bar {
 set $mode_power [l]ogoout | [s]hutdown | [r]eboot
 mode "$mode_power" {
         bindsym l exec i3-msg exit
-        bindsym s exec systemctl poweroff
-        bindsym r exec systemctl reboot
+        bindsym s exec poweroff
+        bindsym r exec reboot
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-bindsym --release $mod+Shift+F4 mode "$mode_power"
+bindsym --release $mod+q mode "$mode_power"
 
 exec picom &
-# exec feh --bg-fill ~/Pictures/wallpapers/kevin-laminto.jpg
+exec flameshot &
+exec feh --bg-fill /home/elbek/Pictures/arch.png
