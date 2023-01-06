@@ -1,0 +1,13 @@
+[Unit]
+Description=Laravel Job
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+WorkingDirectory=/var/www/laravel/
+ExecStart=/bin/php artisan queue:work
+
+[Install]
+WantedBy=multi-user.target
